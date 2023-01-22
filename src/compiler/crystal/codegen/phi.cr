@@ -13,7 +13,11 @@ class Crystal::CodeGenVisitor
     end
 
     def self.new(codegen : CodeGenVisitor, node : ASTNode, needs_value : Bool)
-      new codegen, node.type?, needs_value
+      node_type = node.type?
+      if node_type
+        node_type = node_type.remove_indirection
+      end
+      new codegen, node_type, needs_value
     end
 
     def initialize(@codegen : CodeGenVisitor, @node_type : Type?, @needs_value : Bool)

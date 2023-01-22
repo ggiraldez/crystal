@@ -135,7 +135,9 @@ class Crystal::CodeGenVisitor
           end
         end
 
-        context.return_type = target_def.type?
+        return_type = target_def.type?
+        return_type = return_type.remove_indirection if return_type
+        context.return_type = return_type
         context.return_phi = nil
 
         body = target_def.body

@@ -94,7 +94,7 @@ class Crystal::CodeGenVisitor
 
       # - C calling convention passing needs a separate handling of pass-by-value
       # - Primitives might need a separate handling (for example invoking a Proc)
-      if arg.type.passed_by_value? && !c_calling_convention && !is_primitive
+      if arg.type.remove_indirection.passed_by_value? && !c_calling_convention && !is_primitive
         call_arg = load(call_arg)
       end
 
@@ -544,12 +544,12 @@ class Crystal::CodeGenVisitor
         end
       end
     else
-      case type
+      case type.remove_indirection
       when .no_return?
         unreachable
       when .passed_by_value?
         if @needs_value
-          union = alloca llvm_type(type)
+          union = alloca llvm_type(type.remove_indirection)
           store @last, union
           @last = union
         else

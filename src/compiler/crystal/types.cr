@@ -3215,6 +3215,17 @@ module Crystal
       union_types.all? { |union_type| yield union_type }
     end
 
+    @seen = false
+    def remove_indirection
+      result = program.type_merge_union_of(union_types.map(&.remove_indirection)).not_nil!
+      #result = Type.merge!(union_types.map(&.remove_indirection))
+      if !@seen && result != self
+        puts "Reducing #{self} => #{result}"
+        @seen = true
+      end
+      result
+    end
+
     def to_s_with_options(io : IO, skip_union_parens : Bool = false, generic_args : Bool = true, codegen : Bool = false) : Nil
       io << '(' unless skip_union_parens
       union_types = @union_types
