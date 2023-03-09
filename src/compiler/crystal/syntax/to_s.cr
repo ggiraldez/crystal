@@ -511,7 +511,8 @@ module Crystal
       when StringInterpolation
         visit_interpolation exp, &.inspect_unquoted.gsub('`', "\\`")
       else
-        raise "Bug: shouldn't happen"
+        @str << "BROKEN #{typeof(exp)}"
+        #raise "Bug: shouldn't happen"
       end
       @str << '`'
       false

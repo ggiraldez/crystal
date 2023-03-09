@@ -3215,14 +3215,14 @@ module Crystal
       union_types.all? { |union_type| yield union_type }
     end
 
-    @seen = false
+    #@seen = false
     def remove_indirection
       result = program.type_merge_union_of(union_types.map(&.remove_indirection)).not_nil!
-      #result = Type.merge!(union_types.map(&.remove_indirection))
-      if !@seen && result != self
-        puts "Reducing #{self} => #{result}"
-        @seen = true
-      end
+      # result = Type.merge!(union_types.map(&.remove_indirection))
+      # if !@seen && result != self
+      #   puts "Reducing #{self} => #{result}"
+      #   @seen = true
+      # end
       result
     end
 
