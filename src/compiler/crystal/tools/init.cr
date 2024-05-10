@@ -280,16 +280,18 @@ module Crystal
       View.register({{name.id}})
     end
 
-    template GitignoreView, "gitignore.ecr", ".gitignore"
-    template EditorconfigView, "editorconfig.ecr", ".editorconfig"
-    template LicenseView, "license.ecr", "LICENSE"
-    template ReadmeView, "readme.md.ecr", "README.md"
-    template ShardView, "shard.yml.ecr", "shard.yml"
+    {% unless flag?(:without_tools) %}
+      template GitignoreView, "gitignore.ecr", ".gitignore"
+      template EditorconfigView, "editorconfig.ecr", ".editorconfig"
+      template LicenseView, "license.ecr", "LICENSE"
+      template ReadmeView, "readme.md.ecr", "README.md"
+      template ShardView, "shard.yml.ecr", "shard.yml"
 
-    template SrcExampleView, "example.cr.ecr", "src/#{config.name}.cr"
+      template SrcExampleView, "example.cr.ecr", "src/#{config.name}.cr"
 
-    template SpecHelperView, "spec_helper.cr.ecr", "spec/spec_helper.cr"
-    template SpecExampleView, "example_spec.cr.ecr", "spec/#{config.name}_spec.cr"
+      template SpecHelperView, "spec_helper.cr.ecr", "spec/spec_helper.cr"
+      template SpecExampleView, "example_spec.cr.ecr", "spec/#{config.name}_spec.cr"
+    {% end %}
 
     View.register(GitInitView)
   end

@@ -92,7 +92,12 @@ class Crystal::Command
       exit 1
     when "docs".starts_with?(command)
       options.shift
-      docs
+      {% if flag?(:without_tools) %}
+        puts "Crystal was compiled without tools"
+        exit 1
+      {% else %}
+        docs
+      {% end %}
     when command == "env"
       options.shift
       env
@@ -115,7 +120,12 @@ class Crystal::Command
       spec
     when "tool".starts_with?(command)
       options.shift
-      tool
+      {% if flag?(:without_tools) %}
+        puts "Crystal was compiled without tools"
+        exit 1
+      {% else %}
+        tool
+      {% end %}
     when command == "clear_cache"
       options.shift
       clear_cache
