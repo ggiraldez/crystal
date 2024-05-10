@@ -574,7 +574,15 @@ module Crystal
     end
 
     def offset_of(type, element_index)
-      @layout.offset_of_element(type, element_index)
+      offset = @layout.offset_of_element(type, element_index)
+      puts "Offset of LLVM type #{type} (#{type.to_unsafe}) for element #{element_index} is #{offset}"
+      if offset > 12   # 12 is the actual offset of @c in String
+        puts "   Other offset for the same type:"
+        (0..(element_index.to_i - 1)).each do |i|
+          puts "    - #{i} offset #{@layout.offset_of_element(type, i)}"
+        end
+      end
+      offset
     end
 
     def align_of(type)

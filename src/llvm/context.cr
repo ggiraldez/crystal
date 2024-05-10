@@ -80,6 +80,7 @@ class LLVM::Context
     the_struct = Type.new llvm_struct
     element_types = (yield the_struct).as(Array(LLVM::Type))
     LibLLVM.struct_set_body(llvm_struct, (element_types.to_unsafe.as(LibLLVM::TypeRef*)), element_types.size, packed ? 1 : 0)
+    puts "Created LLVM struct #{llvm_struct} for #{the_struct}"
     the_struct
   end
 

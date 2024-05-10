@@ -318,6 +318,7 @@ module Crystal
         run_args << @last.to_macro_id
       end
 
+      puts "Performing macro_run on #{filename} with args #{run_args}"
       result = @program.macro_run(filename, run_args)
       if result.status.success?
         @last = MacroId.new(result.stdout)
