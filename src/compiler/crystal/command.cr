@@ -80,7 +80,7 @@ class Crystal::Command
       exit 1 if warnings_fail_on_exit?
     when "play".starts_with?(command)
       options.shift
-      {% if flag?(:without_playground) %}
+      {% if flag?(:without_playground) || flag?(:without_tools) %}
         puts "Crystal was compiled without playground support"
         puts "Try the online code evaluation and sharing tool at https://play.crystal-lang.org"
         exit 1
@@ -92,7 +92,12 @@ class Crystal::Command
       exit 1
     when "docs".starts_with?(command)
       options.shift
-      docs
+      {% if flag?(:without_tools) %}
+        puts "Crystal was compiled without tools"
+        exit 1
+      {% else %}
+        docs
+      {% end %}
     when command == "env"
       options.shift
       env
@@ -115,7 +120,12 @@ class Crystal::Command
       spec
     when "tool".starts_with?(command)
       options.shift
-      tool
+      {% if flag?(:without_tools) %}
+        puts "Crystal was compiled without tools"
+        exit 1
+      {% else %}
+        tool
+      {% end %}
     when command == "clear_cache"
       options.shift
       clear_cache

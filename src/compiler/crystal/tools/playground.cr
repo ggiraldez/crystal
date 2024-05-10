@@ -1,3 +1,3 @@
-{% skip_file if flag?(:without_playground) %}
+{% skip_file if flag?(:without_playground) || flag?(:without_tools) %}
 
 require "./playground/*"
