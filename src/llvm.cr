@@ -2,7 +2,7 @@ require "./llvm/**"
 require "c/string"
 
 module LLVM
-  @@initialized = false
+  # @@initialized = false
 
   def self.init_x86 : Nil
     return if @@initialized_x86
