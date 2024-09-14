@@ -95,13 +95,15 @@ struct Crystal::Hasher
   end
 
   def result
+    # NOTE: because we're shifting by a constant amount that's smaller
+    # than the size of the variables (64-bits) these are safe.
     a, b = @a, @b
-    a ^= (a >> 23) ^ (a >> 40)
-    b ^= (b >> 23) ^ (b >> 40)
+    a ^= (a.unsafe_shr(23)) ^ (a.unsafe_shr(40))
+    b ^= (b.unsafe_shr(23)) ^ (b.unsafe_shr(40))
     a &*= C1
     b &*= C2
-    a ^= a >> 32
-    b ^= b >> 32
+    a ^= a.unsafe_shr(32)
+    b ^= b.unsafe_shr(32)
     a &+ b
   end
 
