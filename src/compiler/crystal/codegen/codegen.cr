@@ -491,6 +491,7 @@ module Crystal
         dump_llvm_regex = Regex.new(env_dump)
       end
 
+      skip_verify = ENV["SKIP_VERIFY"]?
       @modules.each do |name, info|
         mod = info.mod
         push_debug_info_metadata(mod) unless @debug.none?
@@ -500,7 +501,7 @@ module Crystal
         # Always run verifications so we can catch bugs earlier and more often.
         # We can probably remove this, or only enable this when compiling in
         # release mode, once we reach 1.0.
-        mod.verify
+        mod.verify unless skip_verify
       end
 
       dump_type_id if ENV["CRYSTAL_DUMP_TYPE_ID"]? == "1"
