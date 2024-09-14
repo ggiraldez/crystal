@@ -236,7 +236,7 @@ struct Int
   def >>(count : Int)
     if count < 0
       self << count.abs
-    elsif count < sizeof(self) * 8
+    elsif count < sizeof(self) &* 8
       self.unsafe_shr(count)
     else
       self.class.zero
@@ -257,7 +257,7 @@ struct Int
   def <<(count : Int)
     if count < 0
       self >> count.abs
-    elsif count < sizeof(self) * 8
+    elsif count < sizeof(self) &* 8
       self.unsafe_shl(count)
     else
       self.class.zero
